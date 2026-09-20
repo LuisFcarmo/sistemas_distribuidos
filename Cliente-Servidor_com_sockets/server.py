@@ -2,19 +2,9 @@ from socket import *
 from constCS import *
 import math
 
-def process_request(request_str: str) -> str:
+def process_single_request(request_str: str) -> str:
     """
-    Processa a requisição do cliente e retorna a resposta formatada.
-    Protocolo de requisição: OPERACAO [ARG1] [ARG2]
-    Exemplos:
-      - ADD 10 5
-      - SUB 20 4
-      - MUL 6 7
-      - DIV 100 5
-      - POW 2 8
-      - SQRT 144
-      - HELP
-      - QUIT
+    Processa uma única operação do protocolo: OPERACAO [ARG1] [ARG2]
     """
     request_str = request_str.strip()
     if not request_str:
@@ -83,6 +73,26 @@ def process_request(request_str: str) -> str:
         return f"OK: {int(res) if res.is_integer() else res}"
 
     return f"ERRO: Operação desconhecida '{op}'. Digite HELP para ver os comandos disponíveis."
+
+def process_request(request_str: str) -> str:
+    """
+    Processa a requisição do cliente e retorna a resposta formatada.
+    Permite chamar tanto uma funcionalidade única (ex: 'ADD 10 20')
+    quanto mais de uma funcionalidade na mesma requisição separadas por ';'
+    (ex: 'ADD 10 20 ; MUL 5 6 ; SQRT 144').
+    """
+    request_str = request_str.strip()
+    if not request_str:
+        return "ERRO: Requisição vazia."
+
+    # Suporte a mais de uma funcionalidade na mesma requisição (separadas por ';')
+    if ";" in request_str:
+        sub_reqs = [r.strip() for r in request_str.split(";") if r.strip()]
+        if len(sub_reqs) > 1:
+            res_list = [f"  • [{sub}] => {process_single_request(sub)}" for sub in sub_reqs]
+            return "LOTE DE OPERAÇÕES PROCESSADO:\n" + "\n".join(res_list)
+
+    return process_single_request(request_str)
 
 def main():
     s = socket(AF_INET, SOCK_STREAM)

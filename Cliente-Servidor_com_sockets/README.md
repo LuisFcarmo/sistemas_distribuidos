@@ -96,43 +96,30 @@ ClientServerBasics-2.0/
 ### Pré-requisitos
 - Python 3 instalado no sistema.
 
-### Passo 1: Iniciar o Servidor
-Abra um terminal, acesse a pasta do projeto e execute:
+### Execução Rápida em 1 Comando (Recomendado para Avaliação)
+Para rodar tanto o servidor quanto a demonstração completa automaticamente:
+```bash
+python3 executar_teste.py
+```
+
+### Execução Manual (Dois Terminais)
+
+#### Passo 1: Iniciar o Servidor
+Abra um terminal, acesse a pasta e execute:
 ```bash
 python3 server.py
 ```
-O servidor ficará escutando na porta configurada aguardando clientes.
 
-### Passo 2: Executar o Cliente
+#### Passo 2: Executar o Cliente
 Em **outro terminal**, acesse a mesma pasta e execute:
 
-#### Opção A: Cliente Interativo (Menu)
-```bash
-python3 client.py
-```
-Você poderá selecionar as operações pelo número do menu, digitar os valores e visualizar as respostas retornadas pelo servidor.
+- **Modo Demonstração (Automático):**
+  ```bash
+  python3 client.py --demo
+  ```
 
-#### Opção B: Modo de Demonstração / Testes Automatizados
-```bash
-python3 client.py --demo
-```
-Executa automaticamente uma bateria de requisições cobrindo todas as operações (soma, subtração, multiplicação, divisão, potência, raiz quadrada, erros tratados, help e encerramento).
-
----
-
-## 6. Publicação no GitHub
-
-Para disponibilizar o projeto no seu repositório:
-
-1. Crie um repositório no seu GitHub (por exemplo, `ClientServerBasics-2.0`).
-2. No seu terminal, dentro da pasta do projeto, execute:
-   ```bash
-   git init
-   git add constCS.py server.py client.py README.md
-   git commit -m "Implementação da Calculadora Remota Cliente-Servidor (sockets TCP)"
-   git branch -M main
-   git remote add origin https://github.com/SEU_USUARIO/ClientServerBasics-2.0.git
-   git push -u origin main
-   ```
-3. Copie o link do seu repositório e envie no campo da tarefa do curso.
-# sistemas_distribuidos
+- **Modo Interativo (Menu):**
+  ```bash
+  python3 client.py
+  ```
+  Permite escolher as operações pelo menu, digitar valores ou testar comandos livres.

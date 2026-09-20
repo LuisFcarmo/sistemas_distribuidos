@@ -13,7 +13,8 @@ def print_menu():
     print(" 5. Potenciação (POW a b)")
     print(" 6. Raiz Quadrada (SQRT a)")
     print(" 7. Ajuda do Servidor (HELP)")
-    print(" 8. Comando Livre (digitar manualmente)")
+    print(" 8. Múltiplas Operações / Lote (ex: ADD 10 20 ; SQRT 144 ; MUL 3 4)")
+    print(" 9. Comando Livre (digitar manualmente)")
     print(" 0. Sair (QUIT)")
     print("="*45)
 
@@ -70,7 +71,11 @@ def run_interactive_client():
                 cmd = "HELP"
 
             elif opcao == "8":
-                cmd = input("Digite o comando (ex: ADD 15 30): ").strip()
+                print("Exemplo: ADD 10 20 ; MUL 5 6 ; SQRT 144 ; POW 2 8")
+                cmd = input("Digite o lote de operações separadas por ';' : ").strip()
+
+            elif opcao == "9":
+                cmd = input("Digite o comando livre (ex: ADD 15 30): ").strip()
 
             else:
                 print("[!] Opção inválida. Tente novamente.")
@@ -118,6 +123,7 @@ def run_automated_demo():
         ("Raiz quadrada de 144", "SQRT 144"),
         ("Raiz quadrada de número negativo (Tratamento de erro)", "SQRT -25"),
         ("Comando inválido / Desconhecido", "FATORIAL 5"),
+        ("Múltiplas operações em UMA única requisição (Lote com ';')", "ADD 100 250 ; MUL 7 8 ; SQRT 81 ; POW 3 4"),
         ("Consulta de ajuda", "HELP"),
         ("Encerramento da sessão", "QUIT")
     ]
