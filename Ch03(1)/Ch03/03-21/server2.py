@@ -1,10 +1,4 @@
 #!/usr/bin/env python3
-"""
-Servidor 2 ZeroC Ice - Instanciação de Múltiplos Objetos Distribuídos
-Disciplina: Sistemas Distribuídos - UFG
-Referência: https://github.com/professorfabio/ice-demo (server2.py)
-"""
-
 import sys
 import os
 
@@ -20,25 +14,24 @@ class MultiPrinterI(Demo.Printer):
         self.tag = tag
 
     def printString(self, s, current=None):
-        print(f"[{self.tag}] printString('{s}')")
+        print(f"[{self.tag}] {s}")
         return f"{self.tag} {s}*"
 
     def toUpper(self, s, current=None):
-        print(f"[{self.tag}] toUpper('{s}')")
+        print(f"[{self.tag}] toUpper: {s}")
         return f"{self.tag} {s.upper()}"
 
     def add(self, a, b, current=None):
         res = a + b
-        print(f"[{self.tag}] add({a}, {b}) = {res}")
+        print(f"[{self.tag}] add: {a} + {b} = {res}")
         return res
 
     def repeatString(self, s, times, current=None):
         res = " ".join([s] * times)
-        print(f"[{self.tag}] repeatString('{s}', {times}) = '{res}'")
+        print(f"[{self.tag}] repeatString: {res}")
         return f"{self.tag} {res}"
 
     def shutdown(self, current=None):
-        print(f"[{self.tag}] shutdown solicitado.")
         current.adapter.getCommunicator().shutdown()
 
 def main():
@@ -49,14 +42,10 @@ def main():
     communicator = Ice.initialize(sys.argv)
     try:
         adapter = communicator.createObjectAdapterWithEndpoints("SimpleAdapter", f"default -p {port}")
-        obj1 = MultiPrinterI("Printer1")
-        obj2 = MultiPrinterI("Printer2")
-
-        adapter.add(obj1, communicator.stringToIdentity("SimplePrinter1"))
-        adapter.add(obj2, communicator.stringToIdentity("SimplePrinter2"))
+        adapter.add(MultiPrinterI("Printer1"), communicator.stringToIdentity("SimplePrinter1"))
+        adapter.add(MultiPrinterI("Printer2"), communicator.stringToIdentity("SimplePrinter2"))
         adapter.activate()
-
-        print(f"[*] Servidor 2 ativo na porta {port} com 2 objetos: 'SimplePrinter1' e 'SimplePrinter2'")
+        print(f"Servidor 2 pronto na porta {port}")
         sys.stdout.flush()
         communicator.waitForShutdown()
     finally:

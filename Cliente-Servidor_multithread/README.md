@@ -6,14 +6,14 @@
 
 ---
 
-## 1. Requisitos da Tarefa Atendidos
+## 1. Componentes Implementados
 
-| Requisito | Como Foi Atendido | Arquivo Principal |
+| Componente | Descrição | Arquivo |
 | :--- | :--- | :--- |
-| **1. Servidor multithread por requisição** | O servidor (`server_mt.py`) aceita conexões no loop principal (*dispatcher*) e dispara imediatamente uma nova thread (*worker*) para atender cada requisição/conexão recebida. | `server_mt.py` |
-| **2. Cliente multithread paralelo** | O cliente (`client_mt.py`) dispara uma nova thread para cada requisição, permitindo envio concorrente em paralelo. Suporta envio distribuído para múltiplos servidores (ex: `--servers 127.0.0.1:5678,127.0.0.1:5679`). | `client_mt.py` |
-| **3. Automação de requisições** | Módulo `gerador_requisicoes.py` gera massas de requisições sintéticas aleatórias cobrindo `ADD`, `SUB`, `MUL`, `DIV`, `POW`, `SQRT` com controle determinístico de semente (`seed`) para reprodutibilidade estrita. | `gerador_requisicoes.py` |
-| **4. Experimento e comparação de desempenho** | O script `experimento.py` executa baterias comparativas medindo Tempo Total, Vazão (*req/s*), Latência Média, Desvio Padrão e Percentis (p50, p95, p99) para os 3 cenários exigidos (+ cenário multi-servidor). | `experimento.py` |
+| **Servidor multithread** | O servidor aceita conexões no loop principal e dispara uma nova thread para atender cada conexão. | `server_mt.py` |
+| **Cliente multithread** | Dispara uma thread por requisição em paralelo. Suporta múltiplos servidores. | `client_mt.py` |
+| **Gerador de requisições** | Gera requisições aleatórias (`ADD`, `SUB`, `MUL`, `DIV`, `POW`, `SQRT`) com controle de semente (`seed`). | `gerador_requisicoes.py` |
+| **Experimento de desempenho** | Executa baterias de testes comparando os cenários MT e ST, calculando métricas e relatórios. | `experimento.py` |
 
 ---
 

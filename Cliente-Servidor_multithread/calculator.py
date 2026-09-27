@@ -1,9 +1,3 @@
-# calculator.py
-"""
-Módulo de processamento de operações matemáticas da Calculadora Remota.
-Evolução direta da Tarefa ASR 04 (Sockets TCP).
-"""
-
 import math
 import time
 

@@ -1,15 +1,4 @@
 #!/usr/bin/env python3
-"""
-Cliente Multithread de Calculadora Remota (Sockets TCP)
-Disciplina: Sistemas Distribuídos
-Requisitos:
-- 'cada requisição do cliente deve ser enviada por uma nova thread,
-   de modo que o cliente possa enviar múltiplas requisições em paralelo
-   (para mais de um servidor, por exemplo)'
-- 'automatizar a geração de requisições no cliente
-   (por exemplo, usando um gerador de números aleatórios para gerar os dados das requisições)'
-"""
-
 import socket
 import threading
 import time

@@ -1,18 +1,4 @@
 #!/usr/bin/env python3
-"""
-Orquestrador Completo de Experimentos de Desempenho
-Disciplina: Sistemas Distribuídos - UFG
-
-Executa e compara os 3 cenários exigidos:
-  1. Multithread Completo: Cliente Multithread + Servidor Multithread (MT + MT)
-  2. Single-Threaded: Cliente Single-threaded + Servidor Single-threaded (ST + ST)
-  3. Misto ('Original'): Cliente Single-threaded + Servidor Multithread (ST + MT)
-  4. Multi-Servidor (Bônus): Cliente Multithread distribuindo entre 2 Servidores MT (MT + 2x MT)
-
-Mede: Tempo total, Vazão (req/s), Latência média, Desvio padrão, p50, p95, p99 e Taxa de Sucesso.
-Gera tabelas comparativas e relatórios em Markdown e Texto Puro para submissão.
-"""
-
 import subprocess
 import socket
 import time
@@ -153,10 +139,8 @@ def run_experiment_suite(num_requests: int = 500, seed: int = 42) -> Dict[str, A
 
     all_data = {}
 
-    # BATERIA 1: Carga com Processamento / I/O Realista (ex: 2ms por requisição)
-    # Demonstra a vantagem real do multithreading em cenários distribuídos onde operações bloqueantes ocorrem
     delay_real = 0.002
-    print(f"\n[BATERIA 1] Carga com Processamento/IO Realista ({delay_real*1000:.1f}ms por requisição):")
+    print(f"\n[BATERIA 1] Carga com Processamento/IO ({delay_real*1000:.1f}ms):")
     results_with_delay = []
 
     # Cenário 2: ST + ST
@@ -207,10 +191,8 @@ def run_experiment_suite(num_requests: int = 500, seed: int = 42) -> Dict[str, A
     print(table1)
     all_data["bateria_com_delay"] = results_with_delay
 
-    # BATERIA 2: Carga Pura sem Atraso Artificial (0.0s)
-    # Avalia o overhead do chaveamento de contexto de threads e sockets em localhost
     delay_pure = 0.0
-    print(f"\n[BATERIA 2] Carga Pura sem Atraso Artificial (0.0s - Puro Socket/CPU):")
+    print(f"\n[BATERIA 2] Carga sem atraso artificial (0.0s):")
     results_pure = []
 
     res_st_st_p = run_single_scenario(

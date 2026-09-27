@@ -1,10 +1,4 @@
 #!/usr/bin/env python3
-"""
-Cliente Single-Threaded de Calculadora Remota (Sockets TCP)
-Disciplina: Sistemas Distribuídos
-Base: Envio sequencial de requisições em uma única thread (Baseline para comparação)
-"""
-
 import socket
 import time
 import argparse

@@ -1,10 +1,3 @@
-# gerador_requisicoes.py
-"""
-Módulo para geração automatizada de requisições do cliente.
-Atende ao requisito: 'automatizar a geração de requisições no cliente
-(por exemplo, usando um gerador de números aleatórios para gerar os dados das requisições)'
-"""
-
 import random
 from typing import List
 

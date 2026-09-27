@@ -1,10 +1,4 @@
 #!/usr/bin/env python3
-"""
-Cliente 2 ZeroC Ice - Comunicação com Múltiplos Objetos Distribuídos
-Disciplina: Sistemas Distribuídos - UFG
-Referência: https://github.com/professorfabio/ice-demo (client2.py)
-"""
-
 import sys
 import os
 
@@ -33,18 +27,15 @@ def main():
         p2 = Demo.PrinterPrx.checkedCast(base2)
 
         if not p1 or not p2:
-            raise RuntimeError("Não foi possível conectar a ambos os objetos!")
+            raise RuntimeError("Nao foi possivel conectar aos proxies")
 
-        print("=== Testando Objeto 1 (SimplePrinter1) ===")
-        print("printString:", p1.printString("Mensagem para Objeto 1"))
-        print("toUpper:    ", p1.toUpper("texto minusculo 1"))
-        print("add:        ", p1.add(10, 20))
+        print("p1 printString: ", p1.printString("Mensagem 1"))
+        print("p1 toUpper:     ", p1.toUpper("texto minusculo"))
+        print("p1 add:         ", p1.add(10, 20))
 
-        print("\n=== Testando Objeto 2 (SimplePrinter2) ===")
-        print("printString:", p2.printString("Mensagem para Objeto 2"))
-        print("repeatString:", p2.repeatString("Echo", 2))
-        print("add:        ", p2.add(100, 250))
-
+        print("p2 printString: ", p2.printString("Mensagem 2"))
+        print("p2 repeatString:", p2.repeatString("Echo", 2))
+        print("p2 add:         ", p2.add(100, 250))
     finally:
         communicator.destroy()
 

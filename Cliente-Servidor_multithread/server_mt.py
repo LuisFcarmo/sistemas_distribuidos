@@ -1,10 +1,4 @@
 #!/usr/bin/env python3
-"""
-Servidor Multithread de Calculadora Remota (Sockets TCP)
-Disciplina: Sistemas Distribuídos
-Requisito: 'o servidor deve disparar uma nova thread para cada requisição recebida'
-"""
-
 import socket
 import threading
 import sys
@@ -66,17 +60,15 @@ class MultithreadedServer:
         self.server_socket.listen(BACKLOG)
         self.running = True
 
-        print(f"[*] Servidor MULTITHREAD ativo em {self.host}:{self.port} (Backlog={BACKLOG}, Delay={self.delay}s)")
-        print("[*] Disparando uma nova thread para cada requisição/conexão recebida...")
+        print(f"Servidor multithread ouvindo em {self.host}:{self.port}")
 
         try:
             while self.running:
                 try:
                     conn, addr = self.server_socket.accept()
                 except OSError:
-                    break  # Socket fechado
+                    break
 
-                # Dispara uma nova thread para atender o cliente/requisição
                 worker = threading.Thread(
                     target=self.handle_client,
                     args=(conn, addr),

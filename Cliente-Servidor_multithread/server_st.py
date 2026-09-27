@@ -1,10 +1,4 @@
 #!/usr/bin/env python3
-"""
-Servidor Single-Threaded de Calculadora Remota (Sockets TCP)
-Disciplina: Sistemas Distribuídos
-Base: Versão iterativa da Tarefa ASR 04 (sem uso de threads adicionais)
-"""
-
 import socket
 import sys
 import argparse
@@ -28,8 +22,7 @@ class SingleThreadedServer:
         self.server_socket.listen(BACKLOG)
         self.running = True
 
-        print(f"[*] Servidor SINGLE-THREADED ativo em {self.host}:{self.port} (Backlog={BACKLOG}, Delay={self.delay}s)")
-        print("[*] Modo iterativo: processa uma conexão/requisição por vez sequencialmente.")
+        print(f"Servidor single-threaded ouvindo em {self.host}:{self.port}")
 
         try:
             while self.running:
