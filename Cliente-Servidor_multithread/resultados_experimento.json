@@ -1,0 +1,168 @@
+{
+  "bateria_com_delay": [
+    {
+      "total_requests": 500,
+      "success_count": 500,
+      "success_rate": 100.0,
+      "total_time_s": 1.1485231119986565,
+      "throughput_req_s": 435.3416964591174,
+      "latency_mean_ms": 2.287582398035738,
+      "latency_stdev_ms": 0.09555572178870732,
+      "latency_min_ms": 2.104349001456285,
+      "latency_max_ms": 2.7246900026511867,
+      "latency_p50_ms": 2.2824039988336153,
+      "latency_p95_ms": 2.4522929998056497,
+      "latency_p99_ms": 2.554581998992944,
+      "servers_used": [
+        "127.0.0.1:5678"
+      ],
+      "mode": "SINGLE-THREAD",
+      "scenario_name": "2. Cliente ST + Servidor ST",
+      "delay_s": 0.002
+    },
+    {
+      "total_requests": 500,
+      "success_count": 500,
+      "success_rate": 100.0,
+      "total_time_s": 1.2643929779987957,
+      "throughput_req_s": 395.44667575690715,
+      "latency_mean_ms": 2.5181935600412544,
+      "latency_stdev_ms": 0.16650107202915282,
+      "latency_min_ms": 2.2139050015539397,
+      "latency_max_ms": 5.0799400014511775,
+      "latency_p50_ms": 2.521834998333361,
+      "latency_p95_ms": 2.715650000027381,
+      "latency_p99_ms": 2.854058999218978,
+      "servers_used": [
+        "127.0.0.1:5678"
+      ],
+      "mode": "SINGLE-THREAD",
+      "scenario_name": "3. Cliente ST + Servidor MT",
+      "delay_s": 0.002
+    },
+    {
+      "total_requests": 500,
+      "success_count": 500,
+      "success_rate": 100.0,
+      "total_time_s": 0.08755254599964246,
+      "throughput_req_s": 5710.856198311376,
+      "latency_mean_ms": 3.2827929119594046,
+      "latency_stdev_ms": 0.7122541756202279,
+      "latency_min_ms": 2.205811000749236,
+      "latency_max_ms": 5.481738000526093,
+      "latency_p50_ms": 3.1111140015127603,
+      "latency_p95_ms": 4.690357000072254,
+      "latency_p99_ms": 5.196210000576684,
+      "servers_used": [
+        "127.0.0.1:5678"
+      ],
+      "mode": "MULTITHREAD",
+      "scenario_name": "1. Cliente MT + Servidor MT",
+      "delay_s": 0.002
+    },
+    {
+      "total_requests": 500,
+      "success_count": 500,
+      "success_rate": 100.0,
+      "total_time_s": 0.10210528400057228,
+      "throughput_req_s": 4896.906216892728,
+      "latency_mean_ms": 2.970132448048389,
+      "latency_stdev_ms": 0.426032482695663,
+      "latency_min_ms": 2.298733001225628,
+      "latency_max_ms": 5.05267300104606,
+      "latency_p50_ms": 2.903822998632677,
+      "latency_p95_ms": 3.84269599817344,
+      "latency_p99_ms": 4.379982001410099,
+      "servers_used": [
+        "127.0.0.1:5678",
+        "127.0.0.1:5679"
+      ],
+      "mode": "MULTITHREAD",
+      "scenario_name": "4. Cliente MT + 2 Servidores MT",
+      "delay_s": 0.002
+    }
+  ],
+  "bateria_sem_delay": [
+    {
+      "total_requests": 500,
+      "success_count": 500,
+      "success_rate": 100.0,
+      "total_time_s": 0.036373167000419926,
+      "throughput_req_s": 13746.397172240391,
+      "latency_mean_ms": 0.0704983218893176,
+      "latency_stdev_ms": 0.053817210064329046,
+      "latency_min_ms": 0.03299200034234673,
+      "latency_max_ms": 0.6404659980034921,
+      "latency_p50_ms": 0.05970900019747205,
+      "latency_p95_ms": 0.16155599951162003,
+      "latency_p99_ms": 0.31228800071403384,
+      "servers_used": [
+        "127.0.0.1:5678"
+      ],
+      "mode": "SINGLE-THREAD",
+      "scenario_name": "2. Cliente ST + Servidor ST",
+      "delay_s": 0.0
+    },
+    {
+      "total_requests": 500,
+      "success_count": 500,
+      "success_rate": 100.0,
+      "total_time_s": 0.11698284299927764,
+      "throughput_req_s": 4274.131036489577,
+      "latency_mean_ms": 0.22823401191999437,
+      "latency_stdev_ms": 0.09295232986644017,
+      "latency_min_ms": 0.09955700079444796,
+      "latency_max_ms": 0.8992240000225138,
+      "latency_p50_ms": 0.1976489984372165,
+      "latency_p95_ms": 0.3942019975511357,
+      "latency_p99_ms": 0.5936070010648109,
+      "servers_used": [
+        "127.0.0.1:5678"
+      ],
+      "mode": "SINGLE-THREAD",
+      "scenario_name": "3. Cliente ST + Servidor MT",
+      "delay_s": 0.0
+    },
+    {
+      "total_requests": 500,
+      "success_count": 500,
+      "success_rate": 100.0,
+      "total_time_s": 0.08042717799980892,
+      "throughput_req_s": 6216.803976401956,
+      "latency_mean_ms": 0.8344861640798626,
+      "latency_stdev_ms": 0.3752194888535967,
+      "latency_min_ms": 0.1348449986835476,
+      "latency_max_ms": 2.302962002431741,
+      "latency_p50_ms": 0.7519259997934569,
+      "latency_p95_ms": 1.58684699999867,
+      "latency_p99_ms": 2.0316910013207234,
+      "servers_used": [
+        "127.0.0.1:5678"
+      ],
+      "mode": "MULTITHREAD",
+      "scenario_name": "1. Cliente MT + Servidor MT",
+      "delay_s": 0.0
+    },
+    {
+      "total_requests": 500,
+      "success_count": 500,
+      "success_rate": 100.0,
+      "total_time_s": 0.08866804399804096,
+      "throughput_req_s": 5639.010149034607,
+      "latency_mean_ms": 0.7534780479109031,
+      "latency_stdev_ms": 0.36104285212689435,
+      "latency_min_ms": 0.17173599917441607,
+      "latency_max_ms": 2.322805998119293,
+      "latency_p50_ms": 0.7076490001054481,
+      "latency_p95_ms": 1.4327760000014678,
+      "latency_p99_ms": 1.8383289971097838,
+      "servers_used": [
+        "127.0.0.1:5678",
+        "127.0.0.1:5679"
+      ],
+      "mode": "MULTITHREAD",
+      "scenario_name": "4. Cliente MT + 2 Servidores MT",
+      "delay_s": 0.0
+    }
+  ]
+}

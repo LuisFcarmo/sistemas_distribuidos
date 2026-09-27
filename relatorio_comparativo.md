@@ -7,30 +7,30 @@
 
 ### Exemplo 3.3 (`03-03/mp.py`) — Processos
 ```text
-9:34 bob is going to sleep for 3 seconds
-9:37 bob has woken up
-9:34 eve is going to sleep for 18 seconds
-9:52 eve has woken up
+10:27 eve is going to sleep for 1 seconds
+10:28 eve has woken up
+10:27 bob is going to sleep for 2 seconds
+10:29 bob has woken up
 ```
 
 ### Exemplo 3.4 (`03-04/mpthread.py`) — Threads & Processos
 ```text
-eve sees shared x being 97
-9:52 eve 0 is going to sleep for 4 seconds
-9:52 eve 1 is going to sleep for 5 seconds
-9:52 eve 2 is going to sleep for 8 seconds
-9:56 eve 0 has woken up, seeing shared x being 98
-9:57 eve 1 has woken up, seeing shared x being 99
-10:0 eve 2 has woken up, seeing shared x being 100
-eve sees shared x being 100
-bob sees shared x being 97
-9:52 bob 0 is going to sleep for 8 seconds
-9:52 bob 1 is going to sleep for 10 seconds
-9:52 bob 2 is going to sleep for 7 seconds
-9:59 bob 2 has woken up, seeing shared x being 98
-10:0 bob 0 has woken up, seeing shared x being 99
-10:2 bob 1 has woken up, seeing shared x being 100
-bob sees shared x being 100
+eve sees shared x being 40
+10:29 eve 0 is going to sleep for 13 seconds
+10:29 eve 1 is going to sleep for 3 seconds
+10:29 eve 2 is going to sleep for 7 seconds
+10:32 eve 1 has woken up, seeing shared x being 41
+10:36 eve 2 has woken up, seeing shared x being 42
+10:42 eve 0 has woken up, seeing shared x being 43
+eve sees shared x being 43
+bob sees shared x being 40
+10:29 bob 0 is going to sleep for 5 seconds
+10:29 bob 1 is going to sleep for 16 seconds
+10:29 bob 2 is going to sleep for 2 seconds
+10:31 bob 2 has woken up, seeing shared x being 41
+10:34 bob 0 has woken up, seeing shared x being 42
+10:45 bob 1 has woken up, seeing shared x being 43
+bob sees shared x being 43
 ```
 
 ---
