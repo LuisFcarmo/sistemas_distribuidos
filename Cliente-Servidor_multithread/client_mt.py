@@ -27,10 +27,6 @@ def send_single_request(
     lock: threading.Lock,
     quiet: bool = False
 ):
-    """
-    Função executada por uma thread dedicada para enviar uma única requisição ao servidor.
-    Estabelece a conexão TCP, envia a requisição, recebe a resposta e fecha a conexão.
-    """
     server_addr_str = f"{server_host}:{server_port}"
     start_time = time.perf_counter()
     success = False
@@ -47,7 +43,6 @@ def send_single_request(
             response = data.decode("utf-8")
             success = response.startswith("OK:") or "OPERAÇÕES SUPORTADAS" in response or "LOTE" in response
             if not success and response.startswith("ERRO:"):
-                # Resposta de erro da aplicação ainda conta como comunicação bem-sucedida com o servidor
                 success = True
         else:
             error_msg = "Resposta vazia do servidor"
@@ -76,10 +71,6 @@ def run_multithreaded_client(
     quiet: bool = False,
     max_workers: int = 0
 ) -> Dict[str, Any]:
-    """
-    Dispara uma nova thread para cada requisição da lista em paralelo.
-    Distribui as requisições entre os servidores disponíveis.
-    """
     results: List[RequestResult] = []
     lock = threading.Lock()
     threads: List[threading.Thread] = []
@@ -89,7 +80,6 @@ def run_multithreaded_client(
 
     start_wall_time = time.perf_counter()
 
-    # Cria e inicia uma nova thread para cada requisição
     for i, req in enumerate(requests):
         target_server = servers[i % num_servers]
         t = threading.Thread(
@@ -100,13 +90,11 @@ def run_multithreaded_client(
         threads.append(t)
         t.start()
 
-    # Aguarda a finalização de todas as threads disparadas
     for t in threads:
         t.join()
 
     total_wall_time = time.perf_counter() - start_wall_time
 
-    # Compilação das métricas estatísticas
     latencies_ms = [r.latency * 1000 for r in results]
     success_count = sum(1 for r in results if r.success)
 

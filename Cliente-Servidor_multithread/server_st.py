@@ -41,7 +41,6 @@ class SingleThreadedServer:
                         if not self.quiet:
                             print(f"[MainThread] REQ de {addr[0]}:{addr[1]} -> '{req.strip()}'")
 
-                        # Processa sequencialmente na própria thread principal
                         resp = process_request(req, simulated_delay=self.delay)
                         conn.sendall(resp.encode("utf-8"))
 

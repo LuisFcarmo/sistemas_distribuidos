@@ -19,7 +19,6 @@ class MultithreadedServer:
         self.lock = threading.Lock()
 
     def handle_client(self, conn: socket.socket, addr):
-        """Thread trabalhadora (worker) responsável por atender a conexão/requisição do cliente."""
         with self.lock:
             self.active_threads += 1
 
@@ -33,7 +32,6 @@ class MultithreadedServer:
                 if not self.quiet:
                     print(f"[{threading.current_thread().name}] REQ de {addr[0]}:{addr[1]} -> '{req.strip()}'")
 
-                # Processa a requisição usando o motor matemático da calculadora
                 resp = process_request(req, simulated_delay=self.delay)
                 conn.sendall(resp.encode("utf-8"))
 

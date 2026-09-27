@@ -7,15 +7,15 @@
 
 ## 1. Introdução e Objetivos
 
-Este relatório apresenta o projeto, a implementação e a análise experimental comparativa de desempenho de um sistema de **Calculadora Remota** baseado em Sockets TCP, evoluído da Tarefa ASR 04.
+Este relatório apresenta o projeto, a implementação e a análise experimental comparativa de desempenho de um sistema de **Calculadora Remota** baseado em Sockets TCP.
 
 O objetivo principal consiste em avaliar os impactos do uso de **Multithreading** em ambos os lados da comunicação (cliente e servidor), medindo o tempo total, a vazão (*throughput*) e a latência sob o envio de uma quantidade significativa de requisições (500 requisições automatizadas).
 
 Foram comparadas experimentalmente três arquiteturas centrais (mais um cenário multi-servidor):
 1. **Cliente Multithread + Servidor Multithread (MT + MT):** Paralelismo total, onde cada requisição é gerada e despachada por uma thread independente no cliente, e atendida por uma thread dedicada no servidor.
-2. **Cliente Single-threaded + Servidor Single-threaded (ST + ST):** Modelo sequencial iterativo (baseline da tarefa anterior).
+2. **Cliente Single-threaded + Servidor Single-threaded (ST + ST):** Modelo sequencial iterativo (baseline de comparação).
 3. **Cliente Single-threaded + Servidor Multithread (ST + MT):** Versão com multithreading apenas no servidor, mas com envio sequencial pelo cliente.
-4. **Cliente Multithread + 2 Servidores Multithread (MT + 2x MT):** Demonstração do requisito de paralelismo com envio para mais de um servidor concorrente.
+4. **Cliente Multithread + 2 Servidores Multithread (MT + 2x MT):** Paralelismo com distribuição de carga entre múltiplos servidores concorrentes.
 
 ---
 
@@ -35,34 +35,34 @@ Foram comparadas experimentalmente três arquiteturas centrais (mais um cenário
 
 | Cenário | Tempo Total (s) | Vazão (req/s) | Latência Média (ms) | Desvio Padrão (ms) | p95 (ms) | Speedup |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **2. Cliente ST + Servidor ST** (Baseline) | 1.1485 | 435.34 | 2.29 | 0.10 | 2.45 | 1.00x |
-| **3. Cliente ST + Servidor MT** (Original) | 1.2644 | 395.45 | 2.52 | 0.17 | 2.72 | 0.91x |
-| **1. Cliente MT + Servidor MT** (Completo) | **0.0876** | **5710.86** | 3.28 | 0.71 | 4.69 | **13.12x** |
-| **4. Cliente MT + 2 Servidores MT** (Multi-Server) | **0.1021** | **4896.91** | 2.97 | 0.43 | 3.84 | **11.25x** |
+| **2. Cliente ST + Servidor ST** (Baseline) | 1.1666 | 428.61 | 2.32 | 0.11 | 2.50 | 1.00x |
+| **3. Cliente ST + Servidor MT** (Original) | 1.2662 | 394.88 | 2.52 | 0.15 | 2.74 | 0.92x |
+| **1. Cliente MT + Servidor MT** (Completo) | **0.0804** | **6222.16** | 2.93 | 0.40 | 3.71 | **14.52x** |
+| **4. Cliente MT + 2 Servidores MT** (Multi-Server) | **0.0882** | **5668.93** | 2.80 | 0.43 | 3.64 | **13.23x** |
 
 ### 3.2. Bateria 2: Carga Pura sem Atraso Artificial (0.0 s — Sockets / CPU Local)
 
 | Cenário | Tempo Total (s) | Vazão (req/s) | Latência Média (ms) | Desvio Padrão (ms) | p95 (ms) | Speedup |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **2. Cliente ST + Servidor ST** (Baseline) | 0.0364 | 13746.40 | 0.07 | 0.05 | 0.16 | 1.00x |
-| **3. Cliente ST + Servidor MT** (Original) | 0.1170 | 4274.13 | 0.23 | 0.09 | 0.39 | 0.31x |
-| **1. Cliente MT + Servidor MT** (Completo) | 0.0804 | 6216.80 | 0.83 | 0.38 | 1.59 | 0.45x |
-| **4. Cliente MT + 2 Servidores MT** (Multi-Server) | 0.0887 | 5639.01 | 0.75 | 0.36 | 1.43 | 0.41x |
+| **2. Cliente ST + Servidor ST** (Baseline) | 0.0302 | 16537.35 | 0.06 | 0.04 | 0.12 | 1.00x |
+| **3. Cliente ST + Servidor MT** (Original) | 0.1095 | 4565.02 | 0.21 | 0.08 | 0.33 | 0.28x |
+| **1. Cliente MT + Servidor MT** (Completo) | 0.1033 | 4840.01 | 1.11 | 0.43 | 1.83 | 0.29x |
+| **4. Cliente MT + 2 Servidores MT** (Multi-Server) | 0.0741 | 6743.98 | 0.65 | 0.35 | 1.38 | 0.41x |
 
 ---
 
 ## 4. Análise Crítica dos Resultados
 
 ### A) Por que o Cliente Multithread + Servidor Multithread (MT + MT) obteve speedup massivo?
-No cenário realista (Bateria 1), o modelo **MT + MT** alcançou um ganho de desempenho impressionante de **13.12x de aceleração** em relação ao modelo single-threaded (tempo reduzido de **1.149s** para apenas **0.088s**; vazão saltando de **435.3 req/s** para **5710.9 req/s**).
+No cenário realista (Bateria 1), o modelo **MT + MT** alcançou um ganho de desempenho impressionante de **14.52x de aceleração** em relação ao modelo single-threaded (tempo reduzido de **1.167s** para apenas **0.080s**; vazão saltando de **428.6 req/s** para **6222.2 req/s**).
 Isso ocorre porque, enquanto o servidor aguarda a conclusão da operação de uma requisição, o escalonador do sistema operacional chaveia a CPU para atender outras threads ativas, ocultando completamente o tempo ocioso (*latency hiding*).
 
 ### B) Por que o Servidor Multithread sozinho (ST + MT) não acelerou o processamento?
-Ao analisar o Cenário 3 (**ST + MT**), nota-se que o tempo total (1.264s) foi essencialmente idêntico ao modelo **ST + ST** (1.149s).
+Ao analisar o Cenário 3 (**ST + MT**), nota-se que o tempo total (1.266s) foi essencialmente idêntico ao modelo **ST + ST** (1.167s).
 **Explicação Técnica:** Embora o servidor tenha capacidade de processar requisições concorrentes disparando threads, o cliente single-threaded opera em modo estritamente síncrono/bloqueante (envia a requisição $k$, bloqueia no `recv()`, e só envia a requisição $k+1$ após receber a resposta). Logo, o servidor nunca recebe mais de uma requisição simultânea, anulando o benefício do multithreading no lado do servidor. O cliente se torna o gargalo limitante do sistema (*head-of-line blocking* no cliente).
 
 ### C) Impacto da Distribuição em Múltiplos Servidores (Cenário MT + 2 Servidores)
-Ao distribuir as 500 requisições entre 2 instâncias do servidor rodando em portas distintas, o tempo total caiu para **0.102s** com vazão de **4896.9 req/s** (**11.25x de speedup**).
+Ao distribuir as 500 requisições entre 2 instâncias do servidor rodando em portas distintas, o tempo total caiu para **0.088s** com vazão de **5668.9 req/s** (**13.23x de speedup**).
 Isso comprova experimentalmente a afirmação do Slide 15 do Capítulo 3: *"se as chamadas forem para servidores diferentes, podemos ter uma aceleração linear"*, reduzindo a contenção na porta e na fila de conexões pendentes do kernel.
 
 ### D) Análise do Overhead na Carga Pura (Bateria 2)

@@ -305,15 +305,15 @@ def generate_reports(all_data: Dict[str, Any], num_requests: int, seed: int):
 
 ## 1. Introdução e Objetivos
 
-Este relatório apresenta o projeto, a implementação e a análise experimental comparativa de desempenho de um sistema de **Calculadora Remota** baseado em Sockets TCP, evoluído da Tarefa ASR 04.
+Este relatório apresenta o projeto, a implementação e a análise experimental comparativa de desempenho de um sistema de **Calculadora Remota** baseado em Sockets TCP.
 
 O objetivo principal consiste em avaliar os impactos do uso de **Multithreading** em ambos os lados da comunicação (cliente e servidor), medindo o tempo total, a vazão (*throughput*) e a latência sob o envio de uma quantidade significativa de requisições ({num_requests} requisições automatizadas).
 
 Foram comparadas experimentalmente três arquiteturas centrais (mais um cenário multi-servidor):
 1. **Cliente Multithread + Servidor Multithread (MT + MT):** Paralelismo total, onde cada requisição é gerada e despachada por uma thread independente no cliente, e atendida por uma thread dedicada no servidor.
-2. **Cliente Single-threaded + Servidor Single-threaded (ST + ST):** Modelo sequencial iterativo (baseline da tarefa anterior).
+2. **Cliente Single-threaded + Servidor Single-threaded (ST + ST):** Modelo sequencial iterativo (baseline de comparação).
 3. **Cliente Single-threaded + Servidor Multithread (ST + MT):** Versão com multithreading apenas no servidor, mas com envio sequencial pelo cliente.
-4. **Cliente Multithread + 2 Servidores Multithread (MT + 2x MT):** Demonstração do requisito de paralelismo com envio para mais de um servidor concorrente.
+4. **Cliente Multithread + 2 Servidores Multithread (MT + 2x MT):** Paralelismo com distribuição de carga entre múltiplos servidores concorrentes.
 
 ---
 
@@ -373,10 +373,10 @@ URL do Repositório GitHub: {repo_url}
 ================================================================================
 
 1. DESCRIÇÃO DA IMPLEMENTAÇÃO:
-- O servidor (`server_mt.py`) foi desenvolvido com arquitetura multithread, onde o loop principal (dispatcher) dispara uma nova thread trabalhadora (worker) dedicada para cada conexão/requisição recebida, permitindo atendimento não-bloqueante simultâneo.
-- O cliente (`client_mt.py`) foi desenvolvido para disparar cada requisição em uma thread independente, enviando múltiplas requisições em paralelo. Suporta também a distribuição de requisições entre múltiplos servidores concorrentes.
+- O servidor (`server_mt.py`) foi desenvolvido com arquitetura multithread, onde o loop principal dispara uma nova thread dedicada para cada conexão/requisição recebida, permitindo atendimento concorrente.
+- O cliente (`client_mt.py`) dispara cada requisição em uma thread independente, enviando múltiplas requisições em paralelo e suportando a distribuição entre múltiplos servidores.
 - A geração de dados foi automatizada (`gerador_requisicoes.py`) com gerador pseudo-aleatório controlado por semente (seed={seed}), cobrindo operações aritméticas (ADD, SUB, MUL, DIV, POW, SQRT).
-- Os programas originais da Tarefa ASR 04 (versão single-threaded iterativa) foram mantidos como baseline de comparação científica.
+- A versão single-threaded iterativa foi mantida como baseline para comparação de desempenho.
 
 --------------------------------------------------------------------------------
 2. RESULTADOS EXPERIMENTAIS ({num_requests} requisições):

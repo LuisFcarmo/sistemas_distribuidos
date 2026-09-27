@@ -22,10 +22,6 @@ def run_singlethreaded_client(
     servers: List[Tuple[str, int]],
     quiet: bool = False
 ) -> Dict[str, Any]:
-    """
-    Envia as requisições sequencialmente em uma única thread principal.
-    A cada requisição, estabelece a conexão TCP, envia, recebe e fecha.
-    """
     results: List[RequestResult] = []
     num_servers = len(servers)
     total_reqs = len(requests)
@@ -72,7 +68,6 @@ def run_singlethreaded_client(
 
     total_wall_time = time.perf_counter() - start_wall_time
 
-    # Métricas estatísticas
     latencies_ms = [r.latency * 1000 for r in results]
     success_count = sum(1 for r in results if r.success)
 

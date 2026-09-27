@@ -5,10 +5,10 @@ URL do Repositório GitHub: https://github.com/LuisFcarmo/sistemas_distribuidos
 ================================================================================
 
 1. DESCRIÇÃO DA IMPLEMENTAÇÃO:
-- O servidor (`server_mt.py`) foi desenvolvido com arquitetura multithread, onde o loop principal (dispatcher) dispara uma nova thread trabalhadora (worker) dedicada para cada conexão/requisição recebida, permitindo atendimento não-bloqueante simultâneo.
-- O cliente (`client_mt.py`) foi desenvolvido para disparar cada requisição em uma thread independente, enviando múltiplas requisições em paralelo. Suporta também a distribuição de requisições entre múltiplos servidores concorrentes.
+- O servidor (`server_mt.py`) foi desenvolvido com arquitetura multithread, onde o loop principal dispara uma nova thread dedicada para cada conexão/requisição recebida, permitindo atendimento concorrente.
+- O cliente (`client_mt.py`) dispara cada requisição em uma thread independente, enviando múltiplas requisições em paralelo e suportando a distribuição entre múltiplos servidores.
 - A geração de dados foi automatizada (`gerador_requisicoes.py`) com gerador pseudo-aleatório controlado por semente (seed=42), cobrindo operações aritméticas (ADD, SUB, MUL, DIV, POW, SQRT).
-- Os programas originais da Tarefa ASR 04 (versão single-threaded iterativa) foram mantidos como baseline de comparação científica.
+- A versão single-threaded iterativa foi mantida como baseline para comparação de desempenho.
 
 --------------------------------------------------------------------------------
 2. RESULTADOS EXPERIMENTAIS (500 requisições):
@@ -17,24 +17,24 @@ A) BATERIA 1: CARGA COM PROCESSAMENTO/IO REALISTA (2.0 ms por requisição)
 --------------------------------------------------------------------------------
 Cenário                                  | Tempo (s) | Vazão (req/s) | Speedup
 --------------------------------------------------------------------------------
-2. Cliente ST + Servidor ST (Baseline)   | 1.1485    | 435.34        | 1.00x
-3. Cliente ST + Servidor MT (Original)   | 1.2644    | 395.45        | 0.91x
-1. Cliente MT + Servidor MT (Completo)   | 0.0876    | 5710.86       | 13.12x
-4. Cliente MT + 2 Servidores MT (Multi)  | 0.1021    | 4896.91       | 11.25x
+2. Cliente ST + Servidor ST (Baseline)   | 1.1666    | 428.61        | 1.00x
+3. Cliente ST + Servidor MT (Original)   | 1.2662    | 394.88        | 0.92x
+1. Cliente MT + Servidor MT (Completo)   | 0.0804    | 6222.16       | 14.52x
+4. Cliente MT + 2 Servidores MT (Multi)  | 0.0882    | 5668.93       | 13.23x
 --------------------------------------------------------------------------------
 
 B) BATERIA 2: CARGA PURA SEM ATRASO (PURO SOCKET/CPU LOCAL)
 --------------------------------------------------------------------------------
 Cenário                                  | Tempo (s) | Vazão (req/s) | Speedup
 --------------------------------------------------------------------------------
-2. Cliente ST + Servidor ST (Baseline)   | 0.0364    | 13746.40      | 1.00x
-3. Cliente ST + Servidor MT (Original)   | 0.1170    | 4274.13       | 0.31x
-1. Cliente MT + Servidor MT (Completo)   | 0.0804    | 6216.80       | 0.45x
-4. Cliente MT + 2 Servidores MT (Multi)  | 0.0887    | 5639.01       | 0.41x
+2. Cliente ST + Servidor ST (Baseline)   | 0.0302    | 16537.35      | 1.00x
+3. Cliente ST + Servidor MT (Original)   | 0.1095    | 4565.02       | 0.28x
+1. Cliente MT + Servidor MT (Completo)   | 0.1033    | 4840.01       | 0.29x
+4. Cliente MT + 2 Servidores MT (Multi)  | 0.0741    | 6743.98       | 0.41x
 --------------------------------------------------------------------------------
 
 3. PRINCIPAIS CONCLUSÕES E ANÁLISE COMPARATIVA:
-1. Concorrência Total (MT + MT): Na presença de operações com latência de I/O ou processamento (2ms), o par Multithread alcançou uma aceleração espetacular de 13.12x em relação ao par Single-Threaded, pois o escalonador do SO intercala a execução de centenas de requisições simultâneas enquanto outras aguardam I/O (latency hiding, Cap. 3, Slide 15 e 17).
-2. Servidor MT com Cliente Sequencial (ST + MT): Apresentou desempenho virtualmente idêntico ao modelo puramente Single-Threaded (1.264s vs 1.149s). Isso comprova que ter multithreading apenas no servidor não traz ganho se o cliente envia requisições de forma síncrona/bloqueante, criando um gargalo limitante no próprio cliente.
-3. Multi-Servidor (MT + 2 Servidores): A distribuição das requisições em paralelo entre múltiplos servidores proporcionou um speedup de 11.25x, demonstrando na prática o princípio da aceleração linear e balanceamento de carga distribuído.
+1. Concorrência Total (MT + MT): Na presença de operações com latência de I/O ou processamento (2ms), o par Multithread alcançou uma aceleração espetacular de 14.52x em relação ao par Single-Threaded, pois o escalonador do SO intercala a execução de centenas de requisições simultâneas enquanto outras aguardam I/O (latency hiding, Cap. 3, Slide 15 e 17).
+2. Servidor MT com Cliente Sequencial (ST + MT): Apresentou desempenho virtualmente idêntico ao modelo puramente Single-Threaded (1.266s vs 1.167s). Isso comprova que ter multithreading apenas no servidor não traz ganho se o cliente envia requisições de forma síncrona/bloqueante, criando um gargalo limitante no próprio cliente.
+3. Multi-Servidor (MT + 2 Servidores): A distribuição das requisições em paralelo entre múltiplos servidores proporcionou um speedup de 13.23x, demonstrando na prática o princípio da aceleração linear e balanceamento de carga distribuído.
 ================================================================================

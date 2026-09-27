@@ -111,7 +111,7 @@ def main():
         print("[+] Servidor encerrado com sucesso.")
 
     print("\n" + "="*70)
-    print(" [SUCESSO] Todos os requisitos da tarefa foram testados e validados!")
+    print(" [OK] Testes concluidos com sucesso!")
     print(" Para testar interativamente no terminal:")
     print(f"   1. Abra um terminal e rode: python3 {os.path.relpath(server_script)}")
     print(f"   2. Abra outro terminal e rode: python3 {os.path.relpath(client_script)}")

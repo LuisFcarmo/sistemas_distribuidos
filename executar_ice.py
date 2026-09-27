@@ -1,8 +1,4 @@
 #!/usr/bin/env python3
-"""
-Launcher da Tarefa ZeroC Ice na Raiz do Repositório
-Disciplina: Sistemas Distribuídos (UFG)
-"""
 import os
 import sys
 import subprocess
