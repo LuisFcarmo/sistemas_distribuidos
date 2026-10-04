@@ -20,6 +20,13 @@ Benchmark comparando arquiteturas multithread e single-threaded (MT+MT, ST+ST, S
 python3 executar_experimento.py
 ```
 
+### 2.1. ZeroC Ice Multiplataforma (Python ⇄ Java)
+Cliente Java → servidor Python e cliente Python → servidor Java, com o mesmo contrato Slice:
+
+```bash
+python3 ice-multiplataforma/executar_cenarios.py
+```
+
 ### 3. Calculadora Remota via Sockets TCP
 Calculadora remota com operações matemáticas e suporte a lotes:
 
@@ -45,6 +52,9 @@ Implementação da interface Slice `Printer.ice` contendo métodos para manipula
 - `add(a, b)`: soma de inteiros remota
 - `repeatString(s, n)`: repetição de texto
 - `shutdown()`: encerramento do servidor
+
+### `ice-multiplataforma/` — ZeroC Ice entre Python e Java
+Dois cenários interoperáveis (cliente Java/servidor Python e cliente Python/servidor Java) sobre o `Printer.ice`, com discussão middleware × transporte em `RELATO_SUBMISSAO.txt`.
 
 ### `Cliente-Servidor_multithread/` — Sockets TCP Multithread
 Estudo de concorrência com threads em sockets TCP:

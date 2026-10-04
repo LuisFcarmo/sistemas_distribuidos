@@ -1,0 +1,18 @@
+Tarefa: Ice multiplataforma (Python e Java)
+Repositório: https://github.com/LuisFcarmo/sistemas_distribuidos (pasta ice-multiplataforma)
+
+O que foi feito
+
+Peguei a interface Printer da tarefa anterior (printString, toUpper, add, repeatString e shutdown) e usei o mesmo Printer.ice nos dois lados. Com o slice2java e o slice2py gerei os stubs e implementei dois cenários: cliente Java com servidor Python, e cliente Python com servidor Java. O script executar_cenarios.py compila o Java, sobe o servidor, roda o cliente da outra linguagem e mostra a saída. Os dois funcionaram, inclusive com acentos nas strings.
+
+Middleware x transporte
+
+Se eu fizesse isso direto em sockets, teria que definir o protocolo na mão e implementar nas duas linguagens: como delimitar as mensagens (o TCP é só um fluxo de bytes, um send não vira um recv), como converter inteiros e strings (UTF-8, ordem dos bytes), como representar erros e como separar cada operação, igual fiz na calculadora com sockets, só que agora duplicado em Java e Python. Qualquer mudança, como um método novo, tem que ser refeita nos dois parsers, e se eles divergirem o erro só aparece rodando.
+
+Com o Ice o contrato fica em um lugar só, o .ice. Os compiladores geram o proxy e o skeleton, então o cliente chama printer.add(35, 7) como se fosse local e não importa se o servidor é Java ou Python. Trocar a linguagem de um lado não mudou nada no outro. A serialização, as conexões, o despacho das chamadas em threads e as exceções remotas também já vêm prontos. Adicionar um método é mexer no .ice e regerar, e o compilador mostra o que falta implementar.
+
+Mas tem custos. Os dois lados dependem do runtime do Ice (usei a 3.7.6 em ambos) e do compilador Slice, e tem uma curva para aprender Communicator, adapter e proxy. Existe também overhead de serialização e despacho em comparação com um protocolo enxuto feito à mão, e o tráfego binário do Ice é mais difícil de inspecionar do que um protocolo em texto. Outro ponto é que só clientes Ice conversam com o servidor, ao contrário de um protocolo aberto que qualquer cliente consegue usar.
+
+A abstração também não esconde tudo. O int do Slice tem 32 bits, e testei no servidor Python add(2147483647, 1): o resultado não cabe em 32 bits, a serialização da resposta falha e o cliente recebe ConnectionLostException. Em Java o mesmo cálculo daria overflow silencioso. Ou seja, o middleware resolve a heterogeneidade de representação, mas o programador ainda precisa tratar falhas de rede, exceções e diferenças de semântica entre as linguagens.
+
+Em resumo, com sockets o controle é total e o overhead é menor, mas eu reimplemento framing, serialização e erros em cada linguagem. Com middleware a integração entre Python e Java ficou bem mais simples, em troca de depender do runtime e de aceitar as limitações do contrato.
