@@ -73,6 +73,8 @@ Inicie o sink e os workers antes das fontes (as fontes esperam 2 s).
 
 ## Testes realizados
 
+Também testado localmente (processos separados em localhost) antes do teste na AWS.
+
 ### Teste em instâncias EC2 (AWS, us-east-1, 08/11/2026)
 
 3 instâncias `t3.micro` (Amazon Linux 2023, Python 3 + `venv` + `pyzmq` 27.3.0) na mesma VPC. Security Group: TCP 4567–4572 liberado apenas entre as instâncias e SSH só do meu IP. Comunicação pelos IPs privados.
