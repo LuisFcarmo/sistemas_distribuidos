@@ -1,0 +1,22 @@
+syntax = "proto3";
+package servicos;
+
+// Serviço 1: operações aritméticas
+service Calculadora {
+  rpc Somar       (Operandos) returns (Numero);
+  rpc Subtrair    (Operandos) returns (Numero);
+  rpc Multiplicar (Operandos) returns (Numero);
+  rpc Dividir     (Operandos) returns (Numero);   // INVALID_ARGUMENT se b == 0
+}
+
+// Serviço 2: operações com texto
+service Texto {
+  rpc Maiusculas  (Mensagem) returns (Mensagem);
+  rpc Inverter    (Mensagem) returns (Mensagem);
+  rpc ContarPalavras (Mensagem) returns (Contagem);
+}
+
+message Operandos { double a = 1; double b = 2; }
+message Numero    { double valor = 1; }
+message Mensagem  { string texto = 1; }
+message Contagem  { int32 palavras = 1; int32 caracteres = 2; }

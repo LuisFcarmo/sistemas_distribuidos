@@ -1,0 +1,15 @@
+syntax = "proto3";
+package nomes;
+
+// Serviço de Nomes: associa um nome (ex.: "calculadora") a um endereço "host:porta".
+service NameService {
+  rpc Bind   (Registro) returns (Resposta);   // registra; ALREADY_EXISTS se o nome já existe
+  rpc Lookup (Nome)     returns (Endereco);   // consulta; NOT_FOUND se não existe
+  rpc Unbind (Nome)     returns (Resposta);   // remove; NOT_FOUND se não existe
+  rpc Rebind (Registro) returns (Resposta);   // atualiza endereço; NOT_FOUND se não existe
+}
+
+message Registro { string nome = 1; string endereco = 2; }
+message Nome     { string nome = 1; }
+message Endereco { string endereco = 1; }
+message Resposta { string mensagem = 1; }
