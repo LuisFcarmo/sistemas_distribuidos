@@ -73,6 +73,36 @@ Inicie o sink e os workers antes das fontes (as fontes esperam 2 s).
 
 ## Testes realizados
 
-Todos os cenários foram executados com sucesso **localmente** (processos separados em localhost): todos os comandos do Req/Rep (inclusive erro e `STOP`), subscriber filtrando `TEMP`/`LOAD`, e pipeline com 2 fontes × 10 tarefas e 2 workers (20 resultados recebidos no sink, 10 por worker).
+### Teste em instâncias EC2 (AWS, us-east-1, 08/11/2026)
 
-Teste em instâncias EC2 distintas: _preencher aqui após executar (instâncias, IPs, saída observada)._
+3 instâncias `t3.micro` (Amazon Linux 2023, Python 3 + `venv` + `pyzmq` 27.3.0) na mesma VPC. Security Group: TCP 4567–4572 liberado apenas entre as instâncias e SSH só do meu IP. Comunicação pelos IPs privados.
+
+| Máquina | IP privado | Papel |
+|---|---|---|
+| A | 172.31.25.102 | server Req/Rep, publisher, sink, fonte 1 |
+| B | 172.31.16.245 | client Req/Rep, subscriber, fonte 2 |
+| C | 172.31.27.232 | 2 workers (`w1`, `w2`) |
+
+**Req/Rep** (servidor em A, cliente em B, `SERVER_HOST=172.31.25.102`):
+```
+$ client.py ADD 1 2 3.5       -> 6.5
+$ client.py UPPER ola mundo   -> OLA MUNDO
+$ client.py REVERSE abc       -> cba
+$ client.py TIME              -> Sun Nov  8 23:27:56 2026
+$ client.py STATS             -> {'ADD': 1, 'UPPER': 1, 'REVERSE': 1, 'TIME': 1, 'STATS': 1}
+$ client.py FOO               -> ERRO: comando desconhecido: FOO
+$ client.py STOP              -> encerrando
+```
+
+**Pub/Sub** (publisher em A, subscriber em B com `subscriber.py 6 TEMP LOAD`): recebeu apenas os tópicos assinados.
+```
+TEMP 30.0 / LOAD 0.02 / TEMP 34.6 / LOAD 0.02 / TEMP 23.0 / LOAD 0.01
+```
+
+**Pipeline** (`N_TASKS=15` em cada fonte): o sink em A recebeu os 30 resultados vindos de workers em outra máquina, com carga dividida igualmente:
+```
+#30 resultado 400 (fonte 2, worker w2) | por worker: {'w1': 14, 'w2': 16}
+```
+(o último `tail` capturado mostra o balanceamento ao final: 30 tarefas = 14 + 16.)
+
+As instâncias, o Security Group e o key pair foram removidos após os testes.
